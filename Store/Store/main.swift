@@ -1,9 +1,7 @@
+// main.swift
+// Store
 //
-//  main.swift
-//  Store
-//
-//  Created by Ted Neward on 2/29/24.
-//
+// Created by Ted Neward on 2/29/24.
 
 import Foundation
 
@@ -23,6 +21,23 @@ class Item: SKU {
     
     func price() -> Int {
         return priceEach
+    }
+}
+
+class WeightBasedItem: SKU {
+    let name: String
+    let pricePerPound: Int  // Price per pound in pennies
+    let weightInPounds: Double  // Weight of the item in pounds
+
+    init(name: String, pricePerPound: Int, weightInPounds: Double) {
+        self.name = name
+        self.pricePerPound = pricePerPound
+        self.weightInPounds = weightInPounds
+    }
+
+    func price() -> Int {
+        let price = Double(pricePerPound) * weightInPounds
+        return Int(price.rounded())  // Round the price to the nearest penny
     }
 }
 
@@ -46,7 +61,7 @@ class Receipt {
         result += "------------------\nTOTAL: $\(String(format: "%.2f", Double(totalAmount) / 100))"
         return result
     }
-    
+
     func itemsList() -> [String] {
         return items.map { $0.name }
     }
@@ -80,4 +95,3 @@ class Store {
         return "Hello world"
     }
 }
-
